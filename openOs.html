@@ -47,7 +47,6 @@
             document.getElementById('bairro').value=(conteudo.bairro);
             document.getElementById('cidade').value=(conteudo.localidade);
             document.getElementById('uf').value=(conteudo.uf);
-            document.getElementById('ibge').value=(conteudo.ibge);
         } //end if.
         else {
             //CEP não Encontrado.
@@ -244,7 +243,7 @@
                     </label>
                     <label for="custo">
                         <p>Custo:</p>
-                        <input pattern="R$123,45" type="number" />
+                        <input placeholder="R$123,45" type="number" />
                     </label>
                     <div>
                         <label for="observacao">
