@@ -3,6 +3,7 @@
 let edit = false // variavel para evitar edição seguida
 
 async function cadastrar(){
+    alert("Solicitação recebida")
     let id= document.getElementById("id").value
     let nome= document.getElementById("nome").value
     let documento= Number(document.getElementById("documento").value) 
@@ -26,17 +27,19 @@ async function cadastrar(){
         //alterar o dado para enviar
         metodo = 'PUT'
         dado={
-            id, nome, idade, documento, cep, uf, cidade, bairro, rua, numero,
-            telefone, nomeativo, marcaativo, servico, custo, obs 
+            id, nome, documento, cep, uf, cidade, bairro, rua, numero,
+            telefone, nomeativo, marcaativo, servico, custo, obs
         }
+        alert("PUT in DB")
     }
     else{ // vai cadastrar
         //criar o dado para enviar
         metodo = 'POST'
         dado={
-            nome, idade, documento, cep, uf, cidade, bairro, rua, numero,
-            telefone, nomeativo, marcaativo, servico, custo, obs 
+            nome, documento, cep, uf, cidade, bairro, rua, numero,
+            telefone, nomeativo, marcaativo, servico, custo, obs
         }
+        alert("POST in DB")
     }
     
 
@@ -66,7 +69,7 @@ async function cadastrar(){
 }
 
 async function consultar(){
-    //consome a API e recupera os FifaPlayers
+    //consome a API e recupera os ordens de serviço
 
     let dados = await fetch('http://localhost:8080/OS')
     .then( response =>{
@@ -82,15 +85,31 @@ async function consultar(){
     //percorrer a variavel dados
     dados.map(dado=>{
         resposta += `<tr><td>${dado.nome}</td> <td>${dado.documento}</td> 
+        <td>${dado.cep}</td> <td>${dado.uf}</td> <td>${dado.cidade}</td>
+        <td>${dado.bairro}</td> <td>${dado.rua}</td> <td>${dado.numero}</td>
+        <td>${dado.telefone}</td> <td>${dado.nomeativo}</td> <td>${dado.marcaativo}</td>
+        <td>${dado.servico}</td> <td>${dado.custo}</td> <td>${dado.obs}</td>
 
-        <td> <i onClick='remove(${dado.id})'class='bi bi-trash3'> </i> </td> 
-        <td> <i onClick="atualiza(${dado.id},'${dado.documento}')" class='bi bi-pencil pulse'> </i> </td> </tr>`
+        <td> <i onClick="remove(${dado.id})" class="fa fa-trash"> </i> </td> 
+        <td> <i onClick="atualiza(${dado.id},'${dado.nome}','${dado.documento}', '${dado.cep}',
+        '${dado.uf}','${dado.cidade}', '${dado.bairro}', '${dado.rua}',
+        '${dado.numero}','${dado.telefone}', '${dado.nomeativo}', '${dado.marcaativo}',
+        '${dado.servico}','${dado.custo}', '${dado.obs}')" class="fa fa-file"> </i> </td> </tr>`
     })
+    /* MAP RESUMIDO ALTERAR FUTURAMENTE
+    dados.map(dado=>{
+        resposta += `<tr><td>${dado.nome}</td> <td>${dado.documento}</td> 
+        <td>${dado.nomeativo}</td> <td>${dado.servico}</td> <td>${dado.status}</td>
+
+        <td> <i onClick="remove(${dado.id})" class="fa fa-trash"> </i> </td> 
+        <td> <i onClick="atualiza(${dado.id},'${dado.nome}','${dado.documento}', '${dado.cep}')" class="fa fa-file"> </i> </td> </tr>`
+    })
+     */
     //colocar a resposta no body da tabela
     document.getElementById("conteudoTabela").innerHTML = resposta
 }
 
-//remove um FifaPlayer do banco de dados
+//remove uma ordem de serviço do banco de dados
 //quem chamar a função remove pode fazer outra ação antes de receber resposta
 
 async function remove(id){
@@ -101,7 +120,7 @@ async function remove(id){
             method:'DELETE'
         })
         .then(response =>{//quando o servidor retornou
-            alert("Jogador foi removido com sucesso")
+            alert("OS foi removida com sucesso")
             consultar()
         })
         .catch( error =>{ //quando há erro na comunicação com o servidor
@@ -110,7 +129,7 @@ async function remove(id){
     }
 }
 
-function atualiza(id, nome, idade, documento, cep, uf, cidade, bairro, rua, numero,
+function atualiza(id, nome, documento, cep, uf, cidade, bairro, rua, numero,
     telefone, nomeativo, marcaativo, servico, custo, obs ){
     document.getElementById("id").value = id
     document.getElementById("nome").value = nome
